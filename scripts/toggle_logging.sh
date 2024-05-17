@@ -29,11 +29,15 @@ set_logging_variable() {
 	tmux set-option -gq "@${pane_unique_id}" "$value"
 }
 
-# this function checks if logging is happening for the current pane
-is_logging() {
+get_logging_variable() {
 	local pane_unique_id="$(pane_unique_id)"
 	local current_pane_logging="$(get_tmux_option "@${pane_unique_id}" "not logging")"
-	if [ "$current_pane_logging" == "logging" ]; then
+	echo $current_pane_logging
+}
+
+# this function checks if logging is happening for the current pane
+is_logging() {
+	if [ "$(get_logging_variable)" == "logging" ]; then
 		return 0
 	else
 		return 1
