@@ -10,11 +10,13 @@ start_pipe_pane() {
 	local file=$(expand_tmux_format_path "${logging_full_filename}")
 	"$CURRENT_DIR/start_logging.sh" "${file}"
 	display_message "Started logging to ${file}"
+	set_logging_variable "${file}"
 }
 
 stop_pipe_pane() {
 	tmux pipe-pane
-	display_message "Ended logging to $logging_full_filename"
+	display_message "Ended logging to $(get_logging_variable)"
+	set_logging_variable ""
 }
 
 # returns a string unique to current pane
@@ -22,7 +24,7 @@ pane_unique_id() {
 	tmux display-message -p "#{session_name}_#{window_index}_#{pane_index}"
 }
 
-# saving 'logging' 'not logging' status in a variable unique to pane
+# saving value in a variable unique to pane
 set_logging_variable() {
 	local value="$1"
 	local pane_unique_id="$(pane_unique_id)"
@@ -31,13 +33,13 @@ set_logging_variable() {
 
 get_logging_variable() {
 	local pane_unique_id="$(pane_unique_id)"
-	local current_pane_logging="$(get_tmux_option "@${pane_unique_id}" "not logging")"
+	local current_pane_logging="$(get_tmux_option "@${pane_unique_id}")"
 	echo $current_pane_logging
 }
 
 # this function checks if logging is happening for the current pane
 is_logging() {
-	if [ "$(get_logging_variable)" == "logging" ]; then
+	if [ -n "$(get_logging_variable)" ]; then
 		return 0
 	else
 		return 1
@@ -47,10 +49,8 @@ is_logging() {
 # starts/stop logging
 toggle_pipe_pane() {
 	if is_logging; then
-		set_logging_variable "not logging"
 		stop_pipe_pane
 	else
-		set_logging_variable "logging"
 		start_pipe_pane
 	fi
 }
