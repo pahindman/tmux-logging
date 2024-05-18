@@ -57,6 +57,7 @@ get_ansifilter_command() {
 
 default_logging_filter="$(get_ansifilter_command)"
 logging_filter=$(tmux show-option -gqv "@logging-filter")
+logging_filter=$(eval "echo \"$logging_filter\"")
 logging_filter=${logging_filter:-$default_logging_filter}
 
 # Screen capture options
