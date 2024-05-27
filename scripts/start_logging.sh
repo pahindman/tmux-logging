@@ -23,7 +23,7 @@ pipe_pane_sed_osx() {
 }
 
 pipe_pane_sed() {
-	local ansi_codes="(\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]|)"
+	local ansi_codes="(([@A-Z\\-_]|\[[0-9:;<=>?]*[ -\/]*[@A-Za-z~]))|"
 	tmux pipe-pane "exec cat - | sed -r 's/$ansi_codes//g' >> $FILE"
 }
 
