@@ -16,7 +16,7 @@ start_pipe_pane() {
 stop_pipe_pane() {
 	tmux pipe-pane
 	display_message "Ended logging to $(get_logging_variable)"
-	set_logging_variable ""
+	unset_logging_variable
 }
 
 # returns a string unique to current pane
@@ -28,12 +28,18 @@ pane_unique_id() {
 set_logging_variable() {
 	local value="$1"
 	local pane_unique_id="$(pane_unique_id)"
-	tmux set-option -gq "@${pane_unique_id}" "$value"
+	tmux set-option -gq "@${pane_unique_id}-logging-filename" "$value"
+}
+
+# saving value in a variable unique to pane
+unset_logging_variable() {
+	local pane_unique_id="$(pane_unique_id)"
+	tmux set-option -guq "@${pane_unique_id}-logging-filename"
 }
 
 get_logging_variable() {
 	local pane_unique_id="$(pane_unique_id)"
-	local current_pane_logging="$(get_tmux_option "@${pane_unique_id}")"
+	local current_pane_logging="$(get_tmux_option "@${pane_unique_id}-logging-filename")"
 	echo $current_pane_logging
 }
 
