@@ -10,12 +10,12 @@ start_pipe_pane() {
 	local file=$(expand_tmux_format_path "${logging_full_filename}")
 	"$CURRENT_DIR/start_logging.sh" "${file}"
 	display_message "Started logging to ${file}"
-	set_logging_variable "logging"
+	set_logging_variable "${file}"
 }
 
 stop_pipe_pane() {
 	tmux pipe-pane
-	display_message "Ended logging to $logging_full_filename"
+	display_message "Ended logging to $(get_logging_variable)"
 	unset_logging_variable
 }
 
