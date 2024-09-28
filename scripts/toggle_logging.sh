@@ -10,31 +10,30 @@ start_pipe_pane() {
 	local file=$(expand_tmux_format_path "${logging_full_filename}")
 	"$CURRENT_DIR/start_logging.sh" "${file}"
 	display_message "Started logging to ${file}"
-	set_logging_variable "${file}"
+	set_active_logging_filename "${file}"
 }
 
 stop_pipe_pane() {
 	tmux pipe-pane
-	display_message "Ended logging to $(get_logging_variable)"
-	unset_logging_variable
+	display_message "Ended logging to $(get_active_logging_filename)"
+	unset_active_logging_filename
 }
 
-# saving 'logging' 'not logging' status in a variable unique to pane
-set_logging_variable() {
-	tmux set-option -pq @logging-variable "$1"
+set_active_logging_filename() {
+	tmux set-option -pq @active-logging-filename "$1"
 }
 
-unset_logging_variable() {
-	tmux set-option -pu @logging-variable
+unset_active_logging_filename() {
+	tmux set-option -pu @active-logging-filename
 }
 
-get_logging_variable() {
-	tmux show-option -pqv @logging-variable
+get_active_logging_filename() {
+	tmux show-option -pqv @active-logging-filename
 }
 
 # this function checks if logging is happening for the current pane
 is_logging() {
-	if [ -n "$(get_logging_variable)" ]; then
+	if [ -n "$(get_active_logging_filename)" ]; then
 		return 0
 	else
 		return 1
