@@ -20,17 +20,7 @@ display_message() {
 		local display_duration="5000"
 	fi
 
-	# saves user-set 'display-time' option
-	local saved_display_time=$(get_tmux_option "display-time" "750")
-
-	# sets message display time to 5 seconds
-	tmux set-option -gq display-time "$display_duration"
-
-	# displays message
-	tmux display-message "$message"
-
-	# restores original 'display-time' value
-	tmux set-option -gq display-time "$saved_display_time"
+	tmux display-message -d $display_duration "$message"
 }
 
 # simplest solution, taken from here: http://unix.stackexchange.com/a/81689
