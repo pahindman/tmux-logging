@@ -9,18 +9,8 @@ get_tmux_option() {
 	fi
 }
 
-# Ensures a message is displayed for 5 seconds in tmux prompt
 display_message() {
-	local message=$1
-
-	# display_duration defaults to 5 seconds, if not passed as an argument
-	if [ "$#" -eq 2 ]; then
-		local display_duration=$2
-	else
-		local display_duration="5000"
-	fi
-
-	tmux display-message -d $display_duration "$message"
+	tmux display-message "$1"
 }
 
 # simplest solution, taken from here: http://unix.stackexchange.com/a/81689
