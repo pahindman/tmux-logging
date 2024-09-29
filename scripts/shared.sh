@@ -41,7 +41,7 @@ remove_empty_lines_from_end_of_file() {
 }
 
 supported_tmux_version_ok() {
-	$CURRENT_DIR/check_tmux_version.sh "$SUPPORTED_VERSION"
+	$CURRENT_DIR/check_tmux_version.sh
 }
 
 # Checking full path to logfile and expanding tmux format in normal path
