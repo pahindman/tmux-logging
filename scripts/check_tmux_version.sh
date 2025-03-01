@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-VERSION="$1"
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+source "$CURRENT_DIR/variables.sh"
 
 get_tmux_option() {
 	local option=$1
@@ -66,7 +68,7 @@ exit_if_unsupported_version() {
 }
 
 main() {
-	local supported_version_int="$(get_digits_from_string "$VERSION")"
+	local supported_version_int="$(get_digits_from_string "$SUPPORTED_VERSION")"
 	local current_version_int="$(tmux_version_int)"
 	exit_if_unsupported_version "$current_version_int" "$supported_version_int"
 }
