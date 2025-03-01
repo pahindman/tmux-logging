@@ -12,11 +12,6 @@ get_digits_from_string() {
 	echo "$1" | tr -dC '[:digit:]'
 }
 
-tmux_version_int() {
-	local tmux_version_string=$(tmux -V)
-	echo "$(get_digits_from_string "$tmux_version_string")"
-}
-
 unsupported_version_message() {
 	echo "Error, Tmux version unsupported! Please install Tmux version $SUPPORTED_VERSION or greater!"
 }
@@ -32,7 +27,7 @@ exit_if_unsupported_version() {
 
 main() {
 	local supported_version_int="$(get_digits_from_string "$SUPPORTED_VERSION")"
-	local current_version_int="$(tmux_version_int)"
+	local current_version_int="$(get_digits_from_string "$(tmux -V)")"
 	exit_if_unsupported_version "$current_version_int" "$supported_version_int"
 }
 main
