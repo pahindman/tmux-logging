@@ -20,9 +20,10 @@ clear_history_key=${clear_history_key:-$default_clear_history_key}
 
 # General options
 filename_suffix="#{session_name}-#{window_index}-#{pane_index}-%Y%m%dT%H%M%S.log"
+default_data_folder="${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # Logging options
-default_logging_path="$HOME"
+default_logging_path="${default_data_folder}/tmux-logging/logging"
 logging_path=$(tmux show-option -gqv "@logging-path")
 logging_path=${logging_path:-$default_logging_path}
 
@@ -61,7 +62,7 @@ logging_filter=$(eval "echo \"$logging_filter\"")
 logging_filter=${logging_filter:-$default_logging_filter}
 
 # Screen capture options
-default_screen_capture_path="$HOME"
+default_screen_capture_path="${default_data_folder}/tmux-logging/screen-capture"
 screen_capture_path=$(tmux show-option -gqv "@screen-capture-path")
 screen_capture_path=${screen_capture_path:-$default_screen_capture_path}
 
@@ -72,7 +73,7 @@ screen_capture_filename=${screen_capture_filename:-$default_screen_capture_filen
 screen_capture_full_filename="${screen_capture_path}/${screen_capture_filename}"
 
 # Save complete history options
-default_save_complete_history_path="$HOME"
+default_save_complete_history_path="${default_data_folder}/tmux-logging/complete-history"
 save_complete_history_path=$(tmux show-option -gqv "@save-complete-history-path")
 save_complete_history_path=${save_complete_history_path:-$default_save_complete_history_path}
 
