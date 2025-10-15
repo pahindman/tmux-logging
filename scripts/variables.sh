@@ -23,6 +23,8 @@ filename_suffix="#{session_name}-#{window_index}-#{pane_index}-%Y%m%dT%H%M%S.log
 default_data_folder="${XDG_DATA_HOME:-$HOME/.local/share}"
 
 # Logging options
+automatic_logging=$(tmux show-option -gqv "@automatic-logging")
+
 default_logging_path="${default_data_folder}/tmux-logging/logging"
 logging_path=$(tmux show-option -gqv "@logging-path")
 logging_path=${logging_path:-$default_logging_path}
